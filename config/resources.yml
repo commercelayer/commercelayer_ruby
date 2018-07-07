@@ -1,0 +1,251 @@
+---
+resources:
+  address:
+    name: Address
+    relationships: {}
+  credit_card:
+    name: CreditCard
+    relationships:
+      order:
+        type: has_one
+        class_name: Order
+  customer_address:
+    name: CustomerAddress
+    relationships:
+      customer:
+        type: has_one
+        class_name: Customer
+      address:
+        type: has_one
+        class_name: Address
+  customer_password_reset:
+    name: CustomerPasswordReset
+    relationships:
+      customer:
+        type: has_one
+        class_name: Customer
+  customer_payment_source:
+    name: CustomerPaymentSource
+    relationships:
+      customer:
+        type: has_one
+        class_name: Customer
+      payment_source:
+        type: has_one
+        class_name: PaymentSource
+  customer_subscription:
+    name: CustomerSubscription
+    relationships:
+      customer:
+        type: has_one
+        class_name: Customer
+  customer:
+    name: Customer
+    relationships:
+      customer_addresses:
+        type: has_many
+        class_name: CustomerAddress
+      customer_payment_sources:
+        type: has_many
+        class_name: CustomerPaymentSource
+      customer_subscriptions:
+        type: has_many
+        class_name: CustomerSubscription
+      orders:
+        type: has_many
+        class_name: Order
+  delivery_lead_time:
+    name: DeliveryLeadTime
+    relationships:
+      stock_location:
+        type: has_one
+        class_name: StockLocation
+      shipping_method:
+        type: has_one
+        class_name: ShippingMethod
+  inventory_model:
+    name: InventoryModel
+    relationships:
+      stock_levels:
+        type: has_many
+        class_name: StockLevel
+  line_item:
+    name: LineItem
+    relationships:
+      order:
+        type: has_one
+        class_name: Order
+      item:
+        type: has_one
+        class_name: Item
+  market:
+    name: Market
+    relationships:
+      merchant:
+        type: has_one
+        class_name: Merchant
+      price_list:
+        type: has_one
+        class_name: PriceList
+      inventory_model:
+        type: has_one
+        class_name: InventoryModel
+  merchant:
+    name: Merchant
+    relationships:
+      address:
+        type: has_one
+        class_name: Address
+  order:
+    name: Order
+    relationships:
+      market:
+        type: has_one
+        class_name: Market
+      customer:
+        type: has_one
+        class_name: Customer
+      shipping_address:
+        type: has_one
+        class_name: Address
+      billing_address:
+        type: has_one
+        class_name: Address
+      payment_method:
+        type: has_one
+        class_name: PaymentMethod
+      payment_source:
+        type: has_one
+        class_name: PaymentSource
+      line_items:
+        type: has_many
+        class_name: LineItem
+      shipments:
+        type: has_many
+        class_name: Shipment
+  parcel:
+    name: Parcel
+    relationships:
+      shipment:
+        type: has_one
+        class_name: Shipment
+  payment_method:
+    name: PaymentMethod
+    relationships:
+      market:
+        type: has_one
+        class_name: Market
+  paypal_payment:
+    name: PaypalPayment
+    relationships:
+      order:
+        type: has_one
+        class_name: Order
+  price_list:
+    name: PriceList
+    relationships:
+      prices:
+        type: has_many
+        class_name: Price
+  price:
+    name: Price
+    relationships:
+      price_list:
+        type: has_one
+        class_name: PriceList
+      sku:
+        type: has_one
+        class_name: Sku
+  shipment:
+    name: Shipment
+    relationships:
+      shipping_category:
+        type: has_one
+        class_name: ShippingCategory
+      stock_location:
+        type: has_one
+        class_name: StockLocation
+      shipping_address:
+        type: has_one
+        class_name: Address
+      shipping_method:
+        type: has_one
+        class_name: ShippingMethod
+      available_shipping_methods:
+        type: has_many
+        class_name: ShippingMethod
+      parcels:
+        type: has_many
+        class_name: Parcel
+  shipping_category:
+    name: ShippingCategory
+    relationships:
+      skus:
+        type: has_many
+        class_name: Sku
+  shipping_method:
+    name: ShippingMethod
+    relationships:
+      market:
+        type: has_one
+        class_name: Market
+      shipping_zone:
+        type: has_one
+        class_name: ShippingZone
+      shipping_category:
+        type: has_one
+        class_name: ShippingCategory
+      delivery_lead_time_for_shipment:
+        type: has_one
+        class_name: DeliveryLeadTime
+  shipping_zone:
+    name: ShippingZone
+    relationships: {}
+  sku:
+    name: Sku
+    relationships:
+      shipping_category:
+        type: has_one
+        class_name: ShippingCategory
+      prices:
+        type: has_many
+        class_name: Price
+      stock_items:
+        type: has_many
+        class_name: StockItem
+      delivery_lead_times:
+        type: has_many
+        class_name: DeliveryLeadTime
+  stock_item:
+    name: StockItem
+    relationships:
+      stock_location:
+        type: has_one
+        class_name: StockLocation
+      sku:
+        type: has_one
+        class_name: Sku
+  stock_level:
+    name: StockLevel
+    relationships:
+      stock_location:
+        type: has_one
+        class_name: StockLocation
+      inventory_model:
+        type: has_one
+        class_name: InventoryModel
+  stock_location:
+    name: StockLocation
+    relationships:
+      address:
+        type: has_one
+        class_name: Address
+      stock_levels:
+        type: has_many
+        class_name: StockLevel
+      stock_items:
+        type: has_many
+        class_name: StockItem
+  webhook:
+    name: Webhook
+    relationships: {}
