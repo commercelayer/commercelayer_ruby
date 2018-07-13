@@ -2,6 +2,9 @@ require "jsonapi/consumer"
 require 'yaml'
 
 module Commercelayer
+
+  JSONAPI::Consumer::Paginating::Paginator.page_param = "page[number]"
+  
   class Resource < JSONAPI::Consumer::Resource
     # self.connection_options = {} # Faraday connection options
     # self.json_key_format = :dasherized_key # (default: underscored_key)
