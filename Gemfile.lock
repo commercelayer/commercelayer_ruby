@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    commercelayer (0.1.0)
+    commercelayer (0.2.0)
       jsonapi-consumer (~> 1.0)
       oauth2 (~> 1.4.0)
 
@@ -76,4 +76,4 @@ DEPENDENCIES
   vcr
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
