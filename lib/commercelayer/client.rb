@@ -3,12 +3,29 @@ require "oauth2"
 module Commercelayer
   class Client
 
+    MAX_RETRIES = 1
+
     def initialize(options={})
       @client_id = options[:client_id]
       @client_secret = options[:client_secret]
       @scope = options[:scope]
       @site = options[:site]
       Resource.site = "#{options[:site]}/api/"
+    end
+
+    def authorized(cached_access_token=nil)
+      begin
+        retries ||= 0
+        Commercelayer::Resource.authorize_with = cached_access_token
+        yield
+      rescue JSONAPI::Consumer::Errors::NotAuthorized
+        if (retries += 1) <= MAX_RETRIES
+          cached_access_token = authorize!
+          retry
+        else
+          raise
+        end
+      end
     end
 
     def authorize!
