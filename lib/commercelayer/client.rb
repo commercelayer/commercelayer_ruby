@@ -13,21 +13,6 @@ module Commercelayer
       Resource.site = "#{options[:site]}/api/"
     end
 
-    def authorized(cached_access_token=nil)
-      begin
-        retries ||= 0
-        Commercelayer::Resource.authorize_with = cached_access_token
-        yield
-      rescue JSONAPI::Consumer::Errors::NotAuthorized
-        if (retries += 1) <= MAX_RETRIES
-          cached_access_token = authorize!
-          retry
-        else
-          raise
-        end
-      end
-    end
-
     def authorize!
       Resource.authorize_with = get_access_token
     end
