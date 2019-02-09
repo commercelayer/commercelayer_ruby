@@ -8,10 +8,10 @@ module Commercelayer
       @client_secret = options[:client_secret]
       @scope = options[:scope]
       @site = options[:site]
+      Resource.site = "#{options[:site]}/api/"
     end
 
     def authorize!
-      Resource.site = @site + "/api/"
       Resource.authorize_with = get_access_token
     end
 
