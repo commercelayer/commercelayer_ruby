@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    commercelayer (0.3.0)
-      jsonapi-consumer (~> 1.0)
+    commercelayer (0.4.0)
+      jsonapi-consumer (~> 2.0.0.pre)
       oauth2 (~> 1.4.0)
 
 GEM
@@ -26,12 +26,13 @@ GEM
       faraday (>= 0.7.4, < 1.0)
     i18n (1.5.3)
       concurrent-ruby (~> 1.0)
-    jsonapi-consumer (1.0.1)
+    jsonapi-consumer (2.0.0.pre)
       activemodel (>= 3.2)
       activesupport (>= 3.2)
       addressable (~> 2.5.2)
       faraday (>= 0.9)
       faraday_middleware
+      request_store (>= 1.4)
     jwt (2.1.0)
     minitest (5.11.3)
     multi_json (1.13.1)
@@ -46,6 +47,8 @@ GEM
     public_suffix (3.0.3)
     rack (2.0.6)
     rake (10.5.0)
+    request_store (1.4.1)
+      rack (>= 1.4)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)

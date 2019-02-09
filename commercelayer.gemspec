@@ -36,6 +36,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'dotenv'
 
-  spec.add_dependency "jsonapi-consumer", "~> 1.0"
+  spec.add_dependency "jsonapi-consumer", "~> 2.0.0.pre"
   spec.add_dependency "oauth2", "~> 1.4.0"
 end
