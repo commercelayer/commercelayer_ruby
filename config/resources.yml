@@ -1,47 +1,89 @@
 ---
 resources:
-  address:
-    name: Address
-    relationships: {}
-  credit_card:
-    name: CreditCard
+  stock_item:
+    name: StockItem
     relationships:
-      order:
+      stock_location:
         type: has_one
-        class_name: Order
-  customer_address:
-    name: CustomerAddress
-    relationships:
-      customer:
+        class_name: StockLocation
+      sku:
         type: has_one
-        class_name: Customer
-      address:
-        type: has_one
-        class_name: Address
-  customer_password_reset:
-    name: CustomerPasswordReset
-    relationships:
-      customer:
-        type: has_one
-        class_name: Customer
-  customer_payment_source:
-    name: CustomerPaymentSource
-    relationships:
-      customer:
-        type: has_one
-        class_name: Customer
-      payment_source:
-        type: has_one
-        class_name: PaymentSource
+        class_name: Sku
   customer_subscription:
     name: CustomerSubscription
     relationships:
       customer:
         type: has_one
         class_name: Customer
+  shipping_method:
+    name: ShippingMethod
+    relationships:
+      market:
+        type: has_one
+        class_name: Market
+      shipping_zone:
+        type: has_one
+        class_name: ShippingZone
+      shipping_category:
+        type: has_one
+        class_name: ShippingCategory
+      delivery_lead_time_for_shipment:
+        type: has_one
+        class_name: DeliveryLeadTime
+  shipping_zone:
+    name: ShippingZone
+    relationships: {}
+  import:
+    name: Import
+    relationships: {}
+  paypal_payment:
+    name: PaypalPayment
+    relationships:
+      order:
+        type: has_one
+        class_name: Order
+  customer_group:
+    name: CustomerGroup
+    relationships:
+      price_list:
+        type: has_one
+        class_name: PriceList
+      customers:
+        type: has_many
+        class_name: Customer
+  price:
+    name: Price
+    relationships:
+      price_list:
+        type: has_one
+        class_name: PriceList
+      sku:
+        type: has_one
+        class_name: Sku
+  stock_level:
+    name: StockLevel
+    relationships:
+      stock_location:
+        type: has_one
+        class_name: StockLocation
+      inventory_model:
+        type: has_one
+        class_name: InventoryModel
+  payment_method:
+    name: PaymentMethod
+    relationships:
+      market:
+        type: has_one
+        class_name: Market
+      payment_gateway:
+        type: has_one
+        class_name: PaymentGateway
   customer:
     name: Customer
     relationships:
+      customer_group:
+        type: has_one
+        class_name: CustomerGroup
       customer_addresses:
         type: has_many
         class_name: CustomerAddress
@@ -54,21 +96,84 @@ resources:
       orders:
         type: has_many
         class_name: Order
-  delivery_lead_time:
-    name: DeliveryLeadTime
+  sku_option:
+    name: SkuOption
     relationships:
-      stock_location:
+      market:
         type: has_one
-        class_name: StockLocation
-      shipping_method:
-        type: has_one
-        class_name: ShippingMethod
-  inventory_model:
-    name: InventoryModel
+        class_name: Market
+  parcel:
+    name: Parcel
     relationships:
+      shipment:
+        type: has_one
+        class_name: Shipment
+  shipping_category:
+    name: ShippingCategory
+    relationships:
+      skus:
+        type: has_many
+        class_name: Sku
+  customer_password_reset:
+    name: CustomerPasswordReset
+    relationships:
+      customer:
+        type: has_one
+        class_name: Customer
+  stock_location:
+    name: StockLocation
+    relationships:
+      address:
+        type: has_one
+        class_name: Address
       stock_levels:
         type: has_many
         class_name: StockLevel
+      stock_items:
+        type: has_many
+        class_name: StockItem
+  price_list:
+    name: PriceList
+    relationships:
+      prices:
+        type: has_many
+        class_name: Price
+  customer_payment_source:
+    name: CustomerPaymentSource
+    relationships:
+      customer:
+        type: has_one
+        class_name: Customer
+      payment_source:
+        type: has_one
+        class_name: PaymentSource
+  shipment:
+    name: Shipment
+    relationships:
+      shipping_category:
+        type: has_one
+        class_name: ShippingCategory
+      stock_location:
+        type: has_one
+        class_name: StockLocation
+      shipping_address:
+        type: has_one
+        class_name: Address
+      shipping_method:
+        type: has_one
+        class_name: ShippingMethod
+      shipment_line_items:
+        type: has_many
+        class_name: ShipmentLineItem
+      available_shipping_methods:
+        type: has_many
+        class_name: ShippingMethod
+      parcels:
+        type: has_many
+        class_name: Parcel
+      attachments:
+        type: has_many
+        class_name: Attachment
   line_item:
     name: LineItem
     relationships:
@@ -78,6 +183,9 @@ resources:
       item:
         type: has_one
         class_name: Item
+      line_item_options:
+        type: has_many
+        class_name: LineItemOption
   market:
     name: Market
     relationships:
@@ -90,12 +198,90 @@ resources:
       inventory_model:
         type: has_one
         class_name: InventoryModel
+  line_item_option:
+    name: LineItemOption
+    relationships:
+      line_item:
+        type: has_one
+        class_name: LineItem
+      sku_option:
+        type: has_one
+        class_name: SkuOption
+  delivery_lead_time:
+    name: DeliveryLeadTime
+    relationships:
+      stock_location:
+        type: has_one
+        class_name: StockLocation
+      shipping_method:
+        type: has_one
+        class_name: ShippingMethod
+  webhook:
+    name: Webhook
+    relationships: {}
+  attachment:
+    name: Attachment
+    relationships:
+      attachable:
+        type: has_one
+        class_name: Attachable
+  customer_address:
+    name: CustomerAddress
+    relationships:
+      customer:
+        type: has_one
+        class_name: Customer
+      address:
+        type: has_one
+        class_name: Address
   merchant:
     name: Merchant
     relationships:
       address:
         type: has_one
         class_name: Address
+  inventory_model:
+    name: InventoryModel
+    relationships:
+      stock_levels:
+        type: has_many
+        class_name: StockLevel
+  sku:
+    name: Sku
+    relationships:
+      shipping_category:
+        type: has_one
+        class_name: ShippingCategory
+      prices:
+        type: has_many
+        class_name: Price
+      stock_items:
+        type: has_many
+        class_name: StockItem
+      delivery_lead_times:
+        type: has_many
+        class_name: DeliveryLeadTime
+      sku_options:
+        type: has_many
+        class_name: 
+  credit_card:
+    name: CreditCard
+    relationships:
+      order:
+        type: has_one
+        class_name: Order
+  wire_transfer:
+    name: WireTransfer
+    relationships:
+      order:
+        type: has_one
+        class_name: Order
+  address:
+    name: Address
+    relationships:
+      geocoder:
+        type: has_one
+        class_name: Geocoder
   order:
     name: Order
     relationships:
@@ -123,129 +309,3 @@ resources:
       shipments:
         type: has_many
         class_name: Shipment
-  parcel:
-    name: Parcel
-    relationships:
-      shipment:
-        type: has_one
-        class_name: Shipment
-  payment_method:
-    name: PaymentMethod
-    relationships:
-      market:
-        type: has_one
-        class_name: Market
-  paypal_payment:
-    name: PaypalPayment
-    relationships:
-      order:
-        type: has_one
-        class_name: Order
-  price_list:
-    name: PriceList
-    relationships:
-      prices:
-        type: has_many
-        class_name: Price
-  price:
-    name: Price
-    relationships:
-      price_list:
-        type: has_one
-        class_name: PriceList
-      sku:
-        type: has_one
-        class_name: Sku
-  shipment:
-    name: Shipment
-    relationships:
-      shipping_category:
-        type: has_one
-        class_name: ShippingCategory
-      stock_location:
-        type: has_one
-        class_name: StockLocation
-      shipping_address:
-        type: has_one
-        class_name: Address
-      shipping_method:
-        type: has_one
-        class_name: ShippingMethod
-      available_shipping_methods:
-        type: has_many
-        class_name: ShippingMethod
-      parcels:
-        type: has_many
-        class_name: Parcel
-  shipping_category:
-    name: ShippingCategory
-    relationships:
-      skus:
-        type: has_many
-        class_name: Sku
-  shipping_method:
-    name: ShippingMethod
-    relationships:
-      market:
-        type: has_one
-        class_name: Market
-      shipping_zone:
-        type: has_one
-        class_name: ShippingZone
-      shipping_category:
-        type: has_one
-        class_name: ShippingCategory
-      delivery_lead_time_for_shipment:
-        type: has_one
-        class_name: DeliveryLeadTime
-  shipping_zone:
-    name: ShippingZone
-    relationships: {}
-  sku:
-    name: Sku
-    relationships:
-      shipping_category:
-        type: has_one
-        class_name: ShippingCategory
-      prices:
-        type: has_many
-        class_name: Price
-      stock_items:
-        type: has_many
-        class_name: StockItem
-      delivery_lead_times:
-        type: has_many
-        class_name: DeliveryLeadTime
-  stock_item:
-    name: StockItem
-    relationships:
-      stock_location:
-        type: has_one
-        class_name: StockLocation
-      sku:
-        type: has_one
-        class_name: Sku
-  stock_level:
-    name: StockLevel
-    relationships:
-      stock_location:
-        type: has_one
-        class_name: StockLocation
-      inventory_model:
-        type: has_one
-        class_name: InventoryModel
-  stock_location:
-    name: StockLocation
-    relationships:
-      address:
-        type: has_one
-        class_name: Address
-      stock_levels:
-        type: has_many
-        class_name: StockLevel
-      stock_items:
-        type: has_many
-        class_name: StockItem
-  webhook:
-    name: Webhook
-    relationships: {}
