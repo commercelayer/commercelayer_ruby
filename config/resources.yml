@@ -108,6 +108,9 @@ resources:
       shipment:
         type: has_one
         class_name: Shipment
+      parcel_line_items:
+        type: has_many
+        class_name: ParcelLineItem
   shipping_category:
     name: ShippingCategory
     relationships:
@@ -263,7 +266,7 @@ resources:
         class_name: DeliveryLeadTime
       sku_options:
         type: has_many
-        class_name: 
+        class_name:
   credit_card:
     name: CreditCard
     relationships:
