@@ -16,12 +16,23 @@ module Commercelayer
   resources = YAML::load_file(File.join(__dir__, '../../config/resources.yml'))["resources"].deep_symbolize_keys
 
   resources.each do |resource_key, resource_values|
+    # Define base resource classes
+    resource_class_name = resource_values[:name].to_s.classify
     resource_class = Class.new(Resource) do
       resource_values[:relationships].each do |name, options|
         send options[:type], name, class_name: options[:class_name]
       end
     end
-    Commercelayer.const_set(resource_values[:name], resource_class)
+    Commercelayer.const_set(resource_class_name, resource_class)
+
+    # Define relationship resource classes
+    resource_values[:relationships].each do |name, options|
+      relationship_resource_class_name = name.to_s.classify
+      if !resources.keys.include?(name.to_s.singularize.to_sym) && !Object.const_defined?("Commercelayer::#{relationship_resource_class_name}")
+        relationship_resource_class = Class.new(Resource)
+        Commercelayer.const_set(relationship_resource_class_name, relationship_resource_class)
+      end
+    end
   end
 
 end
